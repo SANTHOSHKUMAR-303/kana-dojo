@@ -44,8 +44,8 @@ module.exports = {
   // =============================================================================
   config: {
     // Stale issue timing (in milliseconds)
-    staleWarningAfterMs: 12 * 60 * 60 * 1000, // 12 hours
-    staleCloseAfterMs: 24 * 60 * 60 * 1000, // 24 hours
+    staleWarningAfterMs: 3 * 24 * 60 * 60 * 1000, // 3 days
+    staleCloseAfterMs: 7 * 24 * 60 * 60 * 1000, // 7 days
   },
 
   // =============================================================================
@@ -221,7 +221,7 @@ module.exports = {
     common: {
       titleTemplate:
         // '[Good First Issue] {emoji} Add new {issueType} - Beginner-Friendly Contribution (good-first-issue, <1 min, no setup)',
-        '[Good First Issue] {emoji} Add new {issueType} - Beginner-Friendly Open-source Contribution',
+        '[Good First Issue] {emoji} Add new {issueType} - Beginner-Friendly Open-source Contribution (good-first-issue)',
       shortTitleTemplate: '{emoji} Add new {issueType} {id}',
       difficulty: 'Easy (good first issue!)',
       instructionsHeader: '### 📝 Instructions',

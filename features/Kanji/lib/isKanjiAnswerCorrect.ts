@@ -3,8 +3,16 @@ import type { IKanjiObj } from '@/entities/kanji';
 const normalize = (value: string): string =>
   value.trim().normalize('NFC').toLowerCase();
 
-const normalizeMeaning = (value: string): string =>
-  normalize(value).replace(/^to\s+/, '');
+/**
+ * A lone English infinitive marker or article is optional. Compound prefixes
+ * such as "to the" are preserved because removing both can change meaning
+ * (for example, "to the point" is not equivalent to "point").
+ */
+const OPTIONAL_MEANING_PREFIX =
+  /^(?:to(?!\s+(?:the|an|a)\s+)\s+|(?:the|an|a)\s+)/;
+
+export const normalizeKanjiMeaningAnswer = (value: string): string =>
+  normalize(value).replace(OPTIONAL_MEANING_PREFIX, '');
 
 const normalizeReading = (value: string): string =>
   normalize(value.split(' ')[0] ?? '');
@@ -16,12 +24,12 @@ export const isKanjiAnswerCorrect = (
 ): boolean => {
   const normalizedAnswer = isReverse
     ? normalize(answer)
-    : normalizeMeaning(answer);
+    : normalizeKanjiMeaningAnswer(answer);
   if (!normalizedAnswer) return false;
 
   if (!isReverse) {
     return kanji.meanings.some(
-      meaning => normalizeMeaning(meaning) === normalizedAnswer,
+      meaning => normalizeKanjiMeaningAnswer(meaning) === normalizedAnswer,
     );
   }
 
